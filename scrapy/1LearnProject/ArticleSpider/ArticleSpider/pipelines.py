@@ -6,6 +6,7 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 from scrapy.pipelines.images import ImagesPipeline #【scrapy自动下载图片】scrapy提供了一个自动下载图片的机制，需要安装pillow库
+from scrapy.exporters import JsonItemExporter # 【scrapy自带导出模块】可以将item导出成许多文件格式
 import codecs # 【优势】避免很多编码的复杂工作
 import json
 
@@ -26,7 +27,8 @@ class ArticleImagePipeline(ImagesPipeline):
 
         return item #返回item给下一个pipeline
 
-# 保存JSON文件
+# ############### 导出JSON文件
+# 【方法一】自定义json的导出
 class JsonWithEncodingPipeline(object):
     def __init__(self):
         # 打开json文件
@@ -40,5 +42,18 @@ class JsonWithEncodingPipeline(object):
     # spider信号链：当spider进行close时，这个函数就会被调用
     def spider_close(self):
         self.file.close()
+# 【方法二】调用scrapy提供的json export导出json文件
+class JsonExporterPipeline(object):
 
+    def __init__(self):
+        self.file = open('articleexport.json', 'wb') #以二进制的方式打开
+        self.exporter = JsonItemExporter(self.file, encoding="utf-8", ensure_ascii=False) #实例化一个JsonItemExporter变量
+        self.exporter.start_exporting()
 
+    def close_spider(self, spider):
+        self.exporter.finish_exporting() #停止导出
+        self.file.close()
+
+    def process_item(self, item, spider):
+        self.exporter.export_item(item) #把item传进来，进行处理
+        return item #返回item，进入下一个pipeline
