@@ -9,6 +9,8 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+import os
+
 BOT_NAME = 'ArticleSpider'
 
 SPIDER_MODULES = ['ArticleSpider.spiders']
@@ -64,9 +66,21 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
-#}
+# scrapy数据流通的管道
+ITEM_PIPELINES = { # ITEM_PIPELINES存放数据的处理类
+   # "类的位置" : 权重大小（数值越小，就越早进入这个pipeline）
+    'ArticleSpider.pipelines.ArticlespiderPipeline' : 300,
+   # 'scrapy.pipelines.images.ImagesPipeline': 1, #下载图片的pipelines（自动下载图片）
+    'ArticleSpider.pipelines.ArticleImagePipeline': 1,
+}
+# ############【scrapy自动下载图片】scrapy提供了一个自动下载图片的机制，需要安装pillow库
+IMAGES_URLS_FIELD = "front_image_url" # 配置ImagePipeline要下载的字段
+	#当item流入ImagesPipeline后，它就会取出front_image_url字段，进行下载
+# 配置图片保存路径
+project_dir = os.path.abspath(os.path.dirname(__file__)) # settings.py的相对路径
+IMAGES_STORE = os.path.join(project_dir, 'images') # 拼接路径
+# IMAGES_MIN_HEIGHT = 100 # 下载图像的最小高度
+# IMAGES_MIN_WIDTH = 100 # 下载图像的最小宽度
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
