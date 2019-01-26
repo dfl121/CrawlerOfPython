@@ -20,6 +20,11 @@ class JobboleSpider(scrapy.Spider):
         1. 获取文章列表页中的文章url并交给scrapy下载后并进行解析
         2. 获取下一页的url并交给scrapy进行下载， 下载完成后交给parse
         """
+
+        if response.status == 404:
+            self.fail_urls.append(response.url)
+            self.crawler.stats.inc_value("failed_url")
+
         # 解析列表页中的所有文章url并交给scrapy下载后并进行解析
         post_nodes = response.css("#archive .floated-thumb .post-thumb a")
         for post_node in post_nodes:
