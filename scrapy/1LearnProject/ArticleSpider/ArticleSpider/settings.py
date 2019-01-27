@@ -64,17 +64,27 @@ ROBOTSTXT_OBEY = True
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
 
-# Configure item pipelines
+# Configure item pipelines scrapy数据流通的管道
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-# scrapy数据流通的管道
 ITEM_PIPELINES = { # ITEM_PIPELINES存放数据的处理类
-   # "类的位置" : 权重大小（数值越小，就越早进入这个pipeline）
-    'ArticleSpider.pipelines.ArticlespiderPipeline' : 300,
-   # 'scrapy.pipelines.images.ImagesPipeline': 1, #下载图片的pipelines（自动下载图片）
+    # "类的位置" : 权重大小（数值越小，就越早进入这个pipeline）
+
+    # ######## 其他
+    'ArticleSpider.pipelines.ArticlespiderPipeline' : 300, #默认
+
+    # ########下载图片
+    # 'scrapy.pipelines.images.ImagesPipeline': 1, #下载图片的pipelines（自动下载图片）
     'ArticleSpider.pipelines.ArticleImagePipeline': 1, #下载图片的pipelines（自动下载图片）：继承ImagesPipeline，自定义函数，得到下载图像的结果
-   #  'ArticleSpider.pipelines.JsonExporterPipeline' : 2, #保存成JSON文件
-    'ArticleSpider.pipelines.MySQLPipeline' : 2, #mysql的pipeline
+
+    # #######保存成JSON文件
+    # 'ArticleSpider.pipelines.JsonWithEncodingPipeline' : 2, #自定义
+    # 'ArticleSpider.pipelines.JsonExporterPipeline' : 2, #使用scrapy导出模块
+
+    # #######mysql的pipeline
+    # 'ArticleSpider.pipelines.MySQLPipeline' : 2, #自定义
+    'ArticleSpider.pipelines.MysqlTwistedPipeline' : 2, #使用scrapy异步插入
 }
+
 # ############【scrapy自动下载图片】scrapy提供了一个自动下载图片的机制，需要安装pillow库
 IMAGES_URLS_FIELD = "front_image_url" # 配置ImagePipeline要下载的字段
 	#当item流入ImagesPipeline后，它就会取出front_image_url字段，进行下载
@@ -104,3 +114,9 @@ IMAGES_STORE = os.path.join(project_dir, 'images') # 拼接路径
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+MYSQL_HOST = "47.75.49.116"
+MYSQL_USER = 'consumer'
+MYSQL_PASSWORD = "123456"
+MYSQL_DBNAME = 'article_spider'
