@@ -72,7 +72,8 @@ ITEM_PIPELINES = { # ITEM_PIPELINES存放数据的处理类
     'ArticleSpider.pipelines.ArticlespiderPipeline' : 300,
    # 'scrapy.pipelines.images.ImagesPipeline': 1, #下载图片的pipelines（自动下载图片）
     'ArticleSpider.pipelines.ArticleImagePipeline': 1, #下载图片的pipelines（自动下载图片）：继承ImagesPipeline，自定义函数，得到下载图像的结果
-    'ArticleSpider.pipelines.JsonExporterPipeline' : 2, #保存成JSON文件
+   #  'ArticleSpider.pipelines.JsonExporterPipeline' : 2, #保存成JSON文件
+    'ArticleSpider.pipelines.MySQLPipeline' : 2, #mysql的pipeline
 }
 # ############【scrapy自动下载图片】scrapy提供了一个自动下载图片的机制，需要安装pillow库
 IMAGES_URLS_FIELD = "front_image_url" # 配置ImagePipeline要下载的字段

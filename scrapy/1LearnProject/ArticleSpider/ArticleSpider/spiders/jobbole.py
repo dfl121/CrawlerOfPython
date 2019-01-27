@@ -81,11 +81,16 @@ class JobboleSpider(scrapy.Spider):
         article_item["url_object_id"] = get_md5(response.url) # url是变长的变量，对url进行md5变成定长
         article_item["title"] = title # 填充JobBoleArticleItem类对应的值
         article_item["url"] = response.url
+        # [日期处理] 数据库中create_date字段是date，这里也要先进行处理
+        try:
+            create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
+        except Exception as e: #出错
+            create_date = datetime.datetime.now().date() #默认为当前的日期
         article_item["create_date"] = create_date
         article_item["front_image_url"] = [front_image_url] # scrapy的图片下载pipeline接受的是一个数组
-        article_item["praise_nums"] = praise_nums
-        article_item["comment_nums"] = comment_nums
-        article_item["fav_nums"] = fav_nums
+        article_item["praise_nums"] = int(praise_nums)
+        article_item["comment_nums"] = int(comment_nums)
+        article_item["fav_nums"] = int(fav_nums)
         article_item["tags"] = tags
         article_item["content"] = content
 

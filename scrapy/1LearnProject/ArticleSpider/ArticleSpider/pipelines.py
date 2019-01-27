@@ -10,6 +10,7 @@ from scrapy.exporters import JsonItemExporter # 【scrapy自带导出模块】�
 import codecs # 【优势】避免很多编码的复杂工作
 import json
 
+import MySQLdb
 
 class ArticlespiderPipeline(object):
     def process_item(self, item, spider):
@@ -57,3 +58,29 @@ class JsonExporterPipeline(object):
     def process_item(self, item, spider):
         self.exporter.export_item(item) #把item传进来，进行处理
         return item #返回item，进入下一个pipeline
+
+# 存入mysql
+class MySQLPipeline(object):
+    def __init__(self):
+        self.conn = MySQLdb.connect(MySQLHost, MySQLUserName, MySQLPASSWORD, MySQLDatabase, charset="utf8", use_unicode=True)
+        self.cursor = self.conn.cursor()
+
+    def process_item(self, item, spider):
+        insert_sql = "insert into jobbole_article(" \
+                     "title, create_date, url," \
+                     "url_object_id, front_image_url, front_image_path," \
+                     "comment_nums, fav_nums, praise_nums, " \
+                     "tags, content) " \
+                     "values (%s, %s, %s, " \
+                     "%s, %s, %s, " \
+                     "%s, %s, %s, " \
+                     "%s, %s)"
+        self.cursor.execute( insert_sql,  (
+                item["title"], item["create_date"], item["url"],
+                item["url_object_id"], item["front_image_url"][0], item["front_image_path"],
+                item["comment_nums"], item["fav_nums"], item["praise_nums"],
+                item["tags"],
+                item["content"]
+            )
+        )
+        self.conn.commit()
