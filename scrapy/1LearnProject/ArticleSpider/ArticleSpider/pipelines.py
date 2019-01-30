@@ -24,7 +24,7 @@ class ArticlespiderPipeline(object):
 class ArticleImagePipeline(ImagesPipeline):
     # 重载下载完成
     def item_completed(self, results, item, info):
-        if "front_image_url" in item:
+        if "front_image_url" in item: # 存在图片再进行下载
             for ok, value in results:
                 image_file_path = value["path"] #获取文件路径
             item["front_image_path"] = image_file_path #赋值给item

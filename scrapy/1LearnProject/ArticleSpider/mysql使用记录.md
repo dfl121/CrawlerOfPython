@@ -8,6 +8,10 @@
 【版本】https://github.com/PasserQi/CrawlerForPython/commit/51bc98292364247e0dc5c1c84337f3b83d9b1610
 【错误1】`MySQLdb._exceptions.OperationalError: (1366, "Incorrect string value: '\\xF0\\x9F\\x8C\\xB0\\xE3\\x80...' for column 'content' at row 1")`
 
+【错误2】`MySQLdb._exceptions.OperationalError: (2006, 'MySQL server has gone away')`
+【解决】python与数据库的连接失败了，失败原因有多种，可能是提前关闭了连接，也有可能是由于超时连接而失败。最简单的方法就是多连几次数据库。
+【原因】
+1. 在使用scrapy异步插入时，由于错误1编码问题没有解决，所以导致插入错误，之后超时退出
 
 # 基础操作
 ```
