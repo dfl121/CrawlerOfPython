@@ -21,7 +21,7 @@ NEWSPIDER_MODULE = 'ArticleSpider.spiders'
 #USER_AGENT = 'ArticleSpider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False #不要过滤 没有robotstxt 的网站
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -120,3 +120,24 @@ MYSQL_HOST = "47.75.49.116"
 MYSQL_USER = 'consumer'
 MYSQL_PASSWORD = "123456"
 MYSQL_DBNAME = 'article_spider'
+
+ZHIHU_COOKIE = {'_xsrf': 'Epn8I8ylilBwdsWtg1AmSCFQtS8XL35n',
+                '_zap': '1001ee80-19ef-4805-987e-573664cee092',
+                'd_c0': '"AABkXPjs6A6PThNkL_tXvs86oU_w9jqqRPE',
+                'tst': 'r',
+                'q_c1': '1d44866d10234479a892195d1c0c4431|1548929585000|1548929585000',
+                'tgw_l7_route': '116a747939468d99065d12a386ab1c5f',
+                'l_n_c': '1',
+                'l_cap_id': '"MjYyZTZlZGI5MTkzNDA0NzgyMjg5ZWZjNjNkYTZlY2M',
+                'r_cap_id': '"NjJhNGM2ODBlYjc5NDM5N2FjYTA3ZjVlODNiZDc2ZWI',
+                'cap_id': '"MDY3ZTQ5ZDNjNTFjNDRmZmFmMTg1OGM5ZDkxZDk4N2U',
+                'n_c': '1',
+                '__utma': '51854390.652816207.1548989368.1548989368.1548989368.1',
+                '__utmb': '51854390.0.10.1548989368',
+                '__utmc': '51854390',
+                '__utmz': '51854390.1548989368.1.1.utmcsr',
+                '__utmv': '51854390.000--|3',
+                'capsion_ticket': '"2|1:0|10:1548989367|14:capsion_ticket|44:ZjRmZDI3MWNhZjdmNDEwNjg0NzBmNTc0ODNhZGZiZGE',
+                'z_c0': '"2|1:0|10:1548989369|4:z_c0|92:Mi4xck9MX0FnQUFBQUFBQUdSYy1Pem9EaVlBQUFCZ0FsVk51UUZCWFFEcVg1R3VrNERkRmlmRWJLai1oOFhoNFcyUGFB|1f1b19bb24961308c938429127eb4ecfd0c978fdc001beffddd5ed7adbce6d97"'
+}
+

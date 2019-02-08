@@ -10,4 +10,6 @@ sys.path.append(
 		os.path.abspath( __file__ ) #获取__file__(当前py文件)的绝对路径
 	)
 )
-execute(["scrapy", "crawl", "jobbole"] ) #启动scrapy，相当于命令行scrapy crawl jobbole
+# execute(["scrapy", "crawl", "jobbole"] ) #启动scrapy，相当于命令行scrapy crawl jobbole
+
+execute(["scrapy", "crawl", "zhihu"]) #知乎
