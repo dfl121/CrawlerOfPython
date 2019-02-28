@@ -111,6 +111,12 @@ handles = driver.window_handles
 driver.switch_to_window(handles[-1]) #切换到新窗口
 ```
 
+## 关闭页面
+```python
+driver.close()
+```
+
+
 # 例子：模拟知乎登录
 > 2018/1/29版本
 
