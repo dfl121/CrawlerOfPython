@@ -1,4 +1,4 @@
-#!D:\mycode\CrawlerForPython\normal\python3\Scripts\python.exe
+#!D:\mycode\CrawlerForPython\1normal_py3\python3\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'setuptools==39.1.0','console_scripts','easy_install'
 __requires__ = 'setuptools==39.1.0'
 import re

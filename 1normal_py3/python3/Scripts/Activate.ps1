@@ -27,7 +27,7 @@ function global:deactivate ([switch]$NonDestructive) {
 
 deactivate -nondestructive
 
-$env:VIRTUAL_ENV="D:\mycode\CrawlerForPython\normal\python3"
+$env:VIRTUAL_ENV="D:\mycode\CrawlerForPython\1normal_py3\python3"
 
 if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
     # Set the prompt to include the env name

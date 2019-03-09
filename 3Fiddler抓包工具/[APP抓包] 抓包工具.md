@@ -20,3 +20,9 @@
 ## 手机APP抓包
 https://mp.weixin.qq.com/s/a8Tky_u1u0A4vbssnAK2_g
 
+
+功能介绍：https://www.cnblogs.com/anny-1980/p/4537922.html
+详细介绍：https://www.cnblogs.com/Chilam007/p/6985379.html
+https://www.cnblogs.com/yyhh/p/5140852.html?tdsourcetag=s_pctim_aiomsg
+专栏：https://www.cnblogs.com/yoyoketang/tag/fiddler/
+

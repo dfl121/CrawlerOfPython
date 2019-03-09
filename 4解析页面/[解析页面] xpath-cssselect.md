@@ -41,7 +41,11 @@ tree = etree.HTML(html)
 ## 基本函数与属性
 
 ```python
-选出来的对象.text #获取文本
+li.text #获取文本
+# 得到属性
+a.get("href")
+# 获得标签所有值
+a.values()
 ```
 
 # xpath

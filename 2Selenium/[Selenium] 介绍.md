@@ -116,6 +116,11 @@ driver.switch_to_window(handles[-1]) #切换到新窗口
 driver.close()
 ```
 
+## 刷新页面
+```python
+driver.refresh()
+```
+
 
 # 例子：模拟知乎登录
 > 2018/1/29版本

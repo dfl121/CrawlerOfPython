@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>爬取雷达降水瓦片图</title>
+
+    <!-- Leaflet -->
+    <link href="js/leaflet/leaflet.css" type="text/css" rel="stylesheet"/>
+    <script src="js/leaflet/leaflet.js"></script>
+    <script src="js/leaflet/plugins/leaflet.ChineseTmsProviders.js"></script>
+
+
+	<!-- boostrap -->
+    <link href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/index.js"></script>
+
+   	<style type="text/css">
+   		#map{  height:100% ; width:100%; position:absolute;}
+		body{  margin:0px; padding:0px; overflow:hidden;}
+		#formDiv{
+			width:auto;
+			height:auto;
+			top:25px;
+			right:25px;
+			position:absolute;
+			z-index: 9999;
+			background-color:#FFFFFF;
+		}
+		#leftTitleContext{text-align:center;}
+		#errorInfo{text-align:center; color:red;}
+   	</style>
+
+
+</head>
+<body>
+	<div id="map">
+	</div>
+	<div id="formDiv">
+		<div id="leftTitle">
+			<h3 id="leftTitleContext">设&nbsp;&nbsp;&nbsp;置</h3>
+		</div>
+
+		<form action="url" method="post">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">开始时间</label>
+				<div class="col-sm-8">
+					<input type="text" id="startTime" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">结束时间</label>
+				<div class="col-sm-8">
+					<input type="text" id="endTime"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">爬取的时间间隔</label>
+				<div class="col-sm-8">
+					<input type="number" class="form-control" id="interval" placeholder="爬取时间间隔（单位：分钟）">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-4 control-label">爬取范围</label>
+				<div class="col-sm-8">
+					<button id="rectangleSel" type="button" class="btn btn-default">选取范围</button>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-4 control-label">中心点坐标</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="centerPoint" type="text" placeholder="还未选择范围。" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">左上角坐标</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="northWestPoint" type="text" placeholder="还未选择范围。" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">右上角坐标</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="northEastPoint" type="text" placeholder="还未选择范围。" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">右下角坐标</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="southEastPoint" type="text" placeholder="还未选择范围。" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">左下角坐标</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="southNorthPoint" type="text" placeholder="还未选择范围。" disabled>
+				</div>
+			</div>
+			<!-- <div class="form-group">
+				<label class="col-sm-4 control-label">宽度</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="width" type="text" placeholder="还未选择范围。" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">高度</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="height" type="text" placeholder="还未选择范围。" disabled>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">面积</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="area" type="text" placeholder="还未选择范围。" disabled>
+				</div>
+			</div> -->
+
+			
+
+			<div class="form-group">
+				<label class="col-sm-4 control-label">保存文件夹</label>
+				<div class="col-sm-8">
+					<input type="file" id="inputFileDir" webkitdirectory directory multiple/>
+				</div>
+			</div>
+			<div id="errorInfo">
+			</div>
+			<button type="submit" class="btn btn-default" style="width:100%">开始爬取</button>
+		</form>
+	</div>
+</body>
+
+</html>
