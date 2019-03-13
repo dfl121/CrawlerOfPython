@@ -1,12 +1,12 @@
 # coding:utf8
+# py3
 import requests
 from lxml import etree
 import re
 import time
 
-home = "https://blog.csdn.net/summer_dew/article/category/8633637/"
-page_total_num = 1
-
+home = "https://blog.csdn.net/summer_dew/article/category/8089774/"
+page_total_num = 2
 
 class VisitCsdn(object):
     headers = {

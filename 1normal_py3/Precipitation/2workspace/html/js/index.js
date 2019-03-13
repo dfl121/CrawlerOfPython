@@ -21,6 +21,15 @@ $(document).ready(function(){
         map.on('mousedown', rectangleMeasure.mousedown).on('mouseup', rectangleMeasure.mouseup);
     });
 
+    // 时间选择器
+    $(".form_datetime").datetimepicker({
+        language:  'zh-CN',
+        format: "yyyy/mm/dd hh:ii",
+        autoclose: true,
+        todayBtn: true,
+        minuteStep: 5
+    });
+
     // 拦截表单提交，进行验证
     $("form").submit(checkForm);
 });
@@ -96,7 +105,7 @@ var rectangleMeasure = {
     destory:function(){
         if(rectangleMeasure.rectangle)
             rectangleMeasure.layer.removeLayer(rectangleMeasure.rectangle);
-		$(":text").each(function(index, obj){
+		$(".loc").each(function(index, obj){
 			$(this).val("正在计算");
 		});
     },

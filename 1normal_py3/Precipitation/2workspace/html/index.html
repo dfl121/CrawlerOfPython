@@ -11,13 +11,15 @@
     <script src="js/leaflet/leaflet.js"></script>
     <script src="js/leaflet/plugins/leaflet.ChineseTmsProviders.js"></script>
 
-
 	<!-- boostrap -->
     <link href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="js/jquery-3.3.1.js"></script>
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <!-- 时间插件 -->
+    <link href="js/bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="js/bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="js/bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.zh-CN.js"></script>
 
     <script type="text/javascript" src="js/index.js"></script>
 
@@ -48,22 +50,29 @@
 		</div>
 
 		<form action="url" method="post">
+
 			<div class="form-group">
 				<label class="col-sm-4 control-label">开始时间</label>
-				<div class="col-sm-8">
-					<input type="text" id="startTime" />
+				<div class="col-sm-8 input-append date form_datetime">
+				    <input id="startTime" name="startTime" class="form-control" type="text" value="" readonly>
+				    <span class="add-on"><i class="icon-remove"></i></span>
+				    <span class="add-on"><i class="icon-calendar"></i></span>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="col-sm-4 control-label">结束时间</label>
-				<div class="col-sm-8">
-					<input type="text" id="endTime"/>
+				<div class="col-sm-8 input-append date form_datetime">
+				    <input id="endTime" name="endTime" class="form-control" type="text" value="" readonly>
+				    <span class="add-on"><i class="icon-remove"></i></span>
+				    <span class="add-on"><i class="icon-calendar"></i></span>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="col-sm-4 control-label">爬取的时间间隔</label>
 				<div class="col-sm-8">
-					<input type="number" class="form-control" id="interval" placeholder="爬取时间间隔（单位：分钟）">
+					<input id="interval" name="interval" type="number" class="form-control"  placeholder="爬取时间间隔（单位：分钟）">
 				</div>
 			</div>
 			
@@ -77,31 +86,35 @@
 			<div class="form-group">
 				<label class="col-sm-4 control-label">中心点坐标</label>
 				<div class="col-sm-8">
-					<input class="form-control" id="centerPoint" type="text" placeholder="还未选择范围。" disabled>
+					<input id="centerPoint" name="centerPoint" class="form-control loc" type="text" placeholder="还未选择范围。" disabled>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="col-sm-4 control-label">左上角坐标</label>
 				<div class="col-sm-8">
-					<input class="form-control" id="northWestPoint" type="text" placeholder="还未选择范围。" disabled>
+					<input id="northWestPoint" name="northWestPoint" class="form-control loc" type="text" placeholder="还未选择范围。" disabled>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="col-sm-4 control-label">右上角坐标</label>
 				<div class="col-sm-8">
-					<input class="form-control" id="northEastPoint" type="text" placeholder="还未选择范围。" disabled>
+					<input id="northEastPoint" name="northEastPoint" class="form-control loc"  type="text" placeholder="还未选择范围。" disabled>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="col-sm-4 control-label">右下角坐标</label>
 				<div class="col-sm-8">
-					<input class="form-control" id="southEastPoint" type="text" placeholder="还未选择范围。" disabled>
+					<input id="southEastPoint" name="southEastPoint" class="form-control loc" type="text" placeholder="还未选择范围。" disabled>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="col-sm-4 control-label">左下角坐标</label>
 				<div class="col-sm-8">
-					<input class="form-control" id="southNorthPoint" type="text" placeholder="还未选择范围。" disabled>
+					<input id="southNorthPoint" name="southNorthPoint" class="form-control loc"  type="text" placeholder="还未选择范围。" disabled>
 				</div>
 			</div>
 			<!-- <div class="form-group">
@@ -123,12 +136,10 @@
 				</div>
 			</div> -->
 
-			
-
 			<div class="form-group">
 				<label class="col-sm-4 control-label">保存文件夹</label>
 				<div class="col-sm-8">
-					<input type="file" id="inputFileDir" webkitdirectory directory multiple/>
+					<input id="inputFileDir" name="inputFileDir" type="file" webkitdirectory directory multiple/>
 				</div>
 			</div>
 			<div id="errorInfo">
