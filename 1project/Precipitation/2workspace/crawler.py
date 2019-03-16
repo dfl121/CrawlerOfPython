@@ -1,9 +1,10 @@
-# coding : utf8
-# @Author : PasserQi
-# @Version : v1.0 2019/3/9
+# coding:utf8
+# @Author:PasserQi
+# @Version: v1.0.0 2019/3/16
 import requests
 import json
-import time
+from tools import timestamp_to_time
+
 
 def do_get(lat, lon):
     """ 请求
@@ -28,20 +29,3 @@ def do_get(lat, lon):
     for image in imgs:
         image[1] = timestamp_to_time(image[1]) # 转换时间
     return imgs
-
-def check_extent(img):
-    extent = img[2]
-    pass
-
-def time_to_timestamp(t):
-    return time.mktime(time.strptime(t, "%Y-%m-%d %H:%M:%S"))
-
-def timestamp_to_time(c):
-    return time.strftime("%Y/%m/%d %H:%M", time.localtime(c) )
-
-images = []
-if __name__ == '__main__':
-    do_get(24.48176, 118.081)
-
-    print "1"
-

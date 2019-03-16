@@ -1,3 +1,9 @@
+/*
+ @Author:PasserQi
+ @Time:2019-3-16
+ */
+TIME_FORMAT = "yyyy-mm-dd hh-ii"
+
 var map;
 $(document).ready(function(){
     var Gaode = L.tileLayer.chinaProvider('GaoDe.Normal.Map', {
@@ -24,7 +30,7 @@ $(document).ready(function(){
     // 时间选择器
     $(".form_datetime").datetimepicker({
         language:  'zh-CN',
-        format: "yyyy/mm/dd hh:ii",
+        format: TIME_FORMAT,
         autoclose: true,
         todayBtn: true,
         minuteStep: 5
