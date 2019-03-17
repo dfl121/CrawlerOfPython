@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca0c2563-ed4b-478d-bfde-76e7abc09e9a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/2workspace/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/2workspace/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2workspace/html/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/2workspace/html/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2workspace/precipitation.py" beforeDir="false" afterPath="$PROJECT_DIR$/2workspace/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2workspace/函数设置.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2workspace/流程图.vsdx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Precipitation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Precipitation.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2workspace/config.json" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,19 +19,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/2workspace/worker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-278">
+            <state relative-caret-position="19">
               <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/2workspace/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
+            <state relative-caret-position="1235">
               <caret line="65" column="14" selection-start-line="65" selection-start-column="14" selection-end-line="65" selection-end-column="14" />
               <folding>
                 <element signature="e#63#72#0" expanded="true" />
@@ -45,8 +43,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/2workspace/tools.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="85" lean-forward="true" selection-start-line="85" selection-end-line="85" />
+            <state relative-caret-position="1615">
+              <caret line="85" selection-start-line="85" selection-end-line="85" />
             </state>
           </provider>
         </entry>
@@ -54,8 +52,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/2workspace/crawler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="8" column="10" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="10" />
+            <state relative-caret-position="266">
+              <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
               <folding>
                 <element signature="e#62#77#0" expanded="true" />
               </folding>
@@ -89,9 +87,9 @@
         <option value="$PROJECT_DIR$/2workspace/html/js/index.js" />
         <option value="$PROJECT_DIR$/2workspace/html/index.html" />
         <option value="$PROJECT_DIR$/2workspace/crawler.py" />
-        <option value="$PROJECT_DIR$/2workspace/main.py" />
         <option value="$PROJECT_DIR$/2workspace/tools.py" />
         <option value="$PROJECT_DIR$/2workspace/worker.py" />
+        <option value="$PROJECT_DIR$/2workspace/main.py" />
       </list>
     </option>
   </component>
@@ -121,11 +119,6 @@
             <path>
               <item name="Precipitation" type="b2602c69:ProjectViewProjectNode" />
               <item name="Precipitation" type="462c0819:PsiDirectoryNode" />
-              <item name="2workspace" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Precipitation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Precipitation" type="462c0819:PsiDirectoryNode" />
               <item name="tmp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -147,6 +140,11 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\mycode\CrawlerOfPython\1project\Precipitation" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -271,17 +269,17 @@
       <workItem from="1552727850128" duration="7878000" />
       <workItem from="1552740835073" duration="5000" />
       <workItem from="1552740864122" duration="181000" />
+      <workItem from="1552809516103" duration="340000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8918000" />
+    <option name="totallyTimeSpent" value="9258000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16085792" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16286863" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -308,9 +306,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/2workspace/config.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/2workspace/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -334,37 +329,40 @@
     <entry file="file://$PROJECT_DIR$/tmp/2019-03-15 19-34/爬取参数.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/2workspace/main.py">
+    <entry file="file://$PROJECT_DIR$/2workspace/worker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="65" column="14" selection-start-line="65" selection-start-column="14" selection-end-line="65" selection-end-column="14" />
-          <folding>
-            <element signature="e#63#72#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="19">
+          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/2workspace/tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1615">
+          <caret line="85" selection-start-line="85" selection-end-line="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2workspace/config.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/2workspace/crawler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="8" column="10" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="10" />
+        <state relative-caret-position="266">
+          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
           <folding>
             <element signature="e#62#77#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2workspace/tools.py">
+    <entry file="file://$PROJECT_DIR$/2workspace/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="85" lean-forward="true" selection-start-line="85" selection-end-line="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/2workspace/worker.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-278">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+        <state relative-caret-position="1235">
+          <caret line="65" column="14" selection-start-line="65" selection-start-column="14" selection-end-line="65" selection-end-column="14" />
+          <folding>
+            <element signature="e#63#72#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
