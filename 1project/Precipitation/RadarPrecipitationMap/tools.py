@@ -2,11 +2,14 @@
 # @Author:PasserQi
 # @Version: v1.0.0 2019/3/16
 import time
+import json
 
 
-TIME_FORMAT = "%Y-%m-%d %H-%M"
+TIME_FORMAT = "%Y-%m-%d %H-%M-%S"
 RE_TIME_FORMAT = "^(\d{4}-\d{2}-\d{2}) (\d{2}-\d{2})$"
 
+
+# 时间戳：是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总秒数
 def time_to_timestamp(t):
     """ 时间转换成时间戳
     :param t:
@@ -69,9 +72,9 @@ def save_params_file(params):
         'north_west_point': '左上角坐标',
         'north_east_point': '右上角坐标',
         'south_east_point': '右下角坐标',
-        'south_north_point': '左小角坐标',
-        'save_file_dir': '工程目录（保存文件夹）',
-        'out_dir' : '图像输出文件夹'
+        'south_west_point': '左下角坐标',
+        'save_file_dir': '保存文件夹',
+        'out_dir' : '工程目录（图像输出文件夹）'
     }
     out_path = os.path.join(
         params["out_dir"], u'爬取参数.txt'
@@ -92,8 +95,61 @@ def save_params_file(params):
     else:
         return ret
 
+global logger
+def get_log(dir, fn=""):
+    """ 初始化日志
+    按fp获取日志对象
+    :param dir：文件夹
+    :param fn： 文件名（可选）
+    :return: logger
+    """
+    import logging
+    from os.path import join
+
+    if fn=="":
+        fn = "[LOG] %s.txt" % str(get_time() )
+    fp = join(dir, fn)
+
+    LEVEL = logging.DEBUG
+    logger = logging.getLogger(__name__)
+    logger.setLevel(level=LEVEL)
+    handler = logging.FileHandler(fp)
+    handler.setLevel(LEVEL)
+    formatter = logging.Formatter('[%(asctime)s] - %(name)s - [%(levelname)s] - %(message)s')
+    handler.setFormatter(formatter)
+    console = logging.StreamHandler()
+    console.setLevel(LEVEL)
+    logger.addHandler(handler)
+    logger.addHandler(console)
+
+    return logger
+
+
+def save_json(dir, fn, obj):
+    """ 将Python对象保存成JSON文件
+    :param dir:
+    :param fn:
+    :param obj:
+    :return:
+    """
+    import os
+    fp = os.path.join(dir, fn + '.json')
+    with open(fp, 'w+') as f:
+        json.dump(obj, f)
+        f.close()
+    return fp
+
+
 
 if __name__ == '__main__':
-    print is_timestr("2019-03-16 19-52-20")
-    print get_latlng('LatLng(24.485274, 118.095131)')
+    # print is_timestr("2019-03-16 19-52-20")
+    # print get_latlng('LatLng(24.485274, 118.095131)')
+
+
+    # logger = get_log('C:\Users\PasserQi\Desktop\2.txt')
+    # logger.info("Start print log")
+    # logger.debug("Do something")
+    # logger.warning("Something maybe fail.")
+    # logger.info("Finish")
+
     pass

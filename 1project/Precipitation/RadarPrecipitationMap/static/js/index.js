@@ -65,11 +65,11 @@ var rectangleMeasure = {
         var northWestPoint = rectangleMeasure.rectangle.getBounds().getNorthWest(), //左上角
             northEastPoint = rectangleMeasure.rectangle.getBounds().getNorthEast(), //右上角
             southEastPoint = rectangleMeasure.rectangle.getBounds().getSouthEast(), //右下角
-            southNorthPoint = rectangleMeasure.rectangle.getBounds().getSouthWest(); //左下角
+            southWestPoint = rectangleMeasure.rectangle.getBounds().getSouthWest(); //左下角
         $("#northWestPoint").val(northWestPoint);
         $("#northEastPoint").val(northEastPoint);
         $("#southEastPoint").val(southEastPoint);
-        $("#southNorthPoint").val(southNorthPoint);
+        $("#southWestPoint").val(southWestPoint);
         // 计算中心点
         var centerPoint = rectangleMeasure.rectangle.getCenter();
         $("#centerPoint").val(centerPoint);

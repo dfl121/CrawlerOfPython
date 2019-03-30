@@ -4,13 +4,15 @@
 
 from flask import Flask, render_template, request
 from concurrent.futures import ThreadPoolExecutor
-from collections import OrderedDict
+import webbrowser
 
 import os
 from tools import get_time
 from tools import is_timestr
 from tools import get_latlng
 from tools import save_params_file
+from worker import start
+from collections import OrderedDict
 from worker import start
 
 app = Flask(__name__,
@@ -55,7 +57,7 @@ def initparam():
         'north_west_point' : request.form.get("northWestPoint", type=str),
         'north_east_point' : request.form.get("northEastPoint", type=str),
         'south_east_point' : request.form.get("southEastPoint", type=str),
-        'south_north_point' : request.form.get("southNorthPoint", type=str)
+        'south_west_point' : request.form.get("southWestPoint", type=str)
     }
     print '\t[点] %s' % str(points)
     for point_name,value in points.items():
@@ -82,7 +84,6 @@ def initparam():
         return redirect_index("输出文件夹已经存在，%s<Br/>请重新输入文件夹！" % out_dir)
     os.makedirs(out_dir)
 
-
     # 保存爬取参数
     print "【params】" + str(params)
     file_str = save_params_file(params)
@@ -90,11 +91,7 @@ def initparam():
 
     # 开启任务，异步进程
     executor.submit(start(params) )
-    return '任务在后台正在运行<br/>%s' % html_str
-
-def start(params):
-    print "【开始爬取】"
-    print "【params】" + str(params)
+    return '任务已在后台运行<br/>%s' % html_str
 
 def redirect_index(msg):
     """ 重定向到index，并且显示msg
@@ -115,5 +112,5 @@ def redirect_index(msg):
     ''' % msg
 
 if __name__ == '__main__':
-    # 静态资源修改不需要重启
-    app.run(debug=True)
+    webbrowser.open('http://127.0.0.1:5000/', 0, False)
+    app.run()
