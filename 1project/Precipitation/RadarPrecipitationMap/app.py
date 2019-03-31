@@ -1,4 +1,4 @@
-# coding:utf8
+# coding:utf-8
 # @Author:PasserQi
 # @Version: v1.0.0 2019/3/17
 
@@ -14,6 +14,7 @@ from tools import save_params_file
 from worker import start
 from collections import OrderedDict
 from worker import start
+from crawler import init_crawler
 
 app = Flask(__name__,
     static_url_path='' #将static路径该为/，文件正常引用
@@ -89,9 +90,13 @@ def initparam():
     file_str = save_params_file(params)
     html_str = file_str.replace('\n', '<br/>')
 
-    # 开启任务，异步进程
-    executor.submit(start(params) )
-    return '任务已在后台运行<br/>%s' % html_str
+    img_len , request_points = init_crawler(params) #计算每次请求的中心点
+    if img_len==0:
+        return "抱歉，任务失败！<br/>框选区域没有雷达降水图。"
+    else:
+        # 开启任务，异步进程
+        executor.submit(start(params, request_points))
+        return '任务已在后台运行！<br/>每次需要爬取{}张图片！<br/>{}'.format(img_len, html_str)
 
 def redirect_index(msg):
     """ 重定向到index，并且显示msg

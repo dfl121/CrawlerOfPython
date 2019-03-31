@@ -41,9 +41,17 @@ def is_timestr(str):
     result = re.match(RE_TIME_FORMAT, str)
     if result is None:
         return False
+    else:
+        return True
+
+def get_time_dt(str):
+    import re
+    result = re.match(RE_TIME_FORMAT, str)
+    if result is None:
+        return False
     d = result.group(1)
     t = result.group(2)
-    return d,t
+    return d, t
 
 def get_latlng(latlng_str):
     """ 从latlng字符串提取经纬度

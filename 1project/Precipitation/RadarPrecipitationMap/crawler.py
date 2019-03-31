@@ -9,10 +9,6 @@ from collections import OrderedDict
 # debug
 from tools import save_json
 
-# 图幅的中心点
-global request_points
-request_points = OrderedDict()
-
 def do_get(lat, lon):
     """ 请求
     :param lat: 纬度
@@ -52,11 +48,14 @@ def do_get(lat, lon):
     return imgs
 
 
-def init_crawler(params, logger):
+def init_crawler(params):
     """ 初始化爬取工作
     :param params:
     :return:
     """
+    # 图幅的中心点
+    request_points = OrderedDict()
+
     # 四个角坐标
     nepoint = params["north_east_point"]
     # sepoint = params["south_east_point"]
@@ -74,49 +73,67 @@ def init_crawler(params, logger):
     print n_boundary
     print e_boundary
 
-    # 按1°分为一个图幅
-    row = 0
-    for x in range(s_boundary, n_boundary, 1):
-        col = 0
-        for y in range(w_boundary, e_boundary, 1):
-            sheet_num = str(row) + ',' + str(col)
-            value = {}
-            value["request_points"] = (x,y)
-            imgs = do_get(x, y)
-            # 如果图幅正常，而且有范围exetent
-            if imgs!=None and len(imgs)>0 and len(imgs[0])>=3:
-                value["extent"] = imgs[0][2]
-            else:
-                value["extent"] = None
-            request_points[sheet_num] = value
-            col+=1
-        row+=1
-    save_path = save_json(params["out_dir"], u"1度为步长的centerpoint与extent", request_points)
-    info = u"1度为步长的centerpoint与extent：{}".format(save_path)
-    logger.info(info)
+    if abs(n_boundary-s_boundary)<=1 and abs(e_boundary-w_boundary)<=1: #小图幅
+        center_point = params["center_point"] #取出中心点
+        value = {}
+        value["request_points"] = center_point #请求点
 
-    # 根据extent将请求点去重
-    prior_extent = None
+        imgs = do_get(*center_point) #拿中心点请求，看是否正常
+        # 如果图幅正常，而且有范围exetent
+        if imgs != None and len(imgs) > 0 and len(imgs[0]) >= 3:
+            value["extent"] = imgs[0][2]
+            request_points["0,0"] = value
+        else: #不正常，len(request_points) is 0
+            pass
+    else: #大图幅
+        # 按1°分为一个图幅
+        row = 0
+        for x in range(s_boundary, n_boundary, 1):
+            col = 0
+            for y in range(w_boundary, e_boundary, 1):
+                sheet_num = str(row) + ',' + str(col)
+                value = {}
+                value["request_points"] = (x,y)
+                imgs = do_get(x, y)
+                # 如果图幅正常，而且有范围exetent
+                if imgs!=None and len(imgs)>0 and len(imgs[0])>=3:
+                    value["extent"] = imgs[0][2]
+                else:
+                    value["extent"] = None
+                request_points[sheet_num] = value
+                col+=1
+            row+=1
+
+        save_path = save_json(params["out_dir"], u"1度为步长的centerpoint与extent", request_points)
+        print u"[FILE] 1度为步长的centerpoint与extent：{}".format(save_path)
+
+        # 根据extent将请求点去重
+        prior_extent = None
+        for key,value in request_points.items():
+            if prior_extent is None:
+                prior_extent = value["extent"]
+                continue
+            else:
+                now_extent = value["extent"]
+                if prior_extent == now_extent:
+                    request_points.pop(key)
+                else:
+                    prior_extent = now_extent
+
+    # 计算request_point的长度，extent not None才是正常
+    img_len = 0
     for key,value in request_points.items():
-        if prior_extent is None:
-            prior_extent = value["extent"]
-            continue
+        if value["extent"] is not None:
+            img_len += 1
         else:
-            now_extent = value["extent"]
-            if prior_extent == now_extent:
-                request_points.pop(key)
-            else:
-                prior_extent = now_extent
+            continue
 
-    print "\t[每次爬取的中心点坐标] %s" % str(request_points)
+
     save_path = save_json(params["out_dir"], u"每次爬取的中心点坐标", request_points)
-    info = u"每次爬取的中心点坐标：{}".format(save_path)
-    logger.info(info)
+    print u"[FILE] 每次爬取的中心点坐标：{}".format(save_path)
+    print "【进程】每次需要爬取{}张图片".format( img_len )
 
-    info = "【进程】每次需要爬取{}张图片".format( len(request_points) )
-    print info
-    logger.info(info)
-    return request_points
+    return img_len,request_points
 
 
 if __name__ == '__main__':

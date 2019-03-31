@@ -2,7 +2,9 @@
 # @Author:PasserQi
 # @Version: v1.0.0 2019/3/16
 
-from crawler import init_crawler
+
+from tools import is_timestr
+from tools import time_to_timestamp
 
 # log
 from tools import get_log
@@ -11,18 +13,32 @@ global logger
 # debug
 from collections import OrderedDict
 
-def start(params):
+def start(params, request_points):
     """ 开始工作
     :param params:
+    :param request_points: dict
+        key : 图幅号 例"0,0"
+        value : dict
+            request_points: (x,y) 请求点
+            extent : 范围
+                extent is None 该请求点没有图幅
     :return:
     """
-    logger = get_log(params["out_dir"])
+    logger = get_log(params["out_dir"] )
     logger.info("【进程】开始下载")
 
-    logger.info("【进程】爬取工作初始化")
-    init_crawler(params, logger)
+    # 结束时间
+    if is_timestr(params["end_time"]): #设置了结束时间
+        end_time = params["end_time"]
+        end_time = time_to_timestamp(end_time) #转换为时间戳好比较时间
+    else: #没有设置结束时间
+        end_time = None
+
+
 
     pass
+
+
 
 
 

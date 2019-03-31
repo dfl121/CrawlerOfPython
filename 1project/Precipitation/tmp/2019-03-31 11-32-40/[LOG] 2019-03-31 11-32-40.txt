@@ -1,0 +1,5 @@
+[2019-03-31 11:32:40,947] - tools - [INFO] - 【进程】开始下载
+[2019-03-31 11:32:40,948] - tools - [INFO] - 【进程】爬取工作初始化
+[2019-03-31 11:32:40,948] - tools - [INFO] - 1度为步长的centerpoint与extent：D:\mycode\CrawlerOfPython\1project\Precipitation\tmp\2019-03-31 11-32-40\1度为步长的centerpoint与extent.json
+[2019-03-31 11:32:40,950] - tools - [INFO] - 每次爬取的中心点坐标：D:\mycode\CrawlerOfPython\1project\Precipitation\tmp\2019-03-31 11-32-40\每次爬取的中心点坐标.json
+[2019-03-31 11:32:40,950] - tools - [INFO] - 【进程】每次需要爬取0张图片
