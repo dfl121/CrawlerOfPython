@@ -11,10 +11,16 @@ from tools import get_time
 from tools import is_timestr
 from tools import get_latlng
 from tools import save_params_file
-from worker import start
+from tools import save_json
 from collections import OrderedDict
 from worker import start
 from crawler import init_crawler
+
+import sys
+defaultencoding = 'utf-8'
+if sys.getdefaultencoding() != defaultencoding:
+    reload(sys)
+    sys.setdefaultencoding(defaultencoding)
 
 app = Flask(__name__,
     static_url_path='' #将static路径该为/，文件正常引用
@@ -85,17 +91,25 @@ def initparam():
         return redirect_index("输出文件夹已经存在，%s<Br/>请重新输入文件夹！" % out_dir)
     os.makedirs(out_dir)
 
+    # 项目备注
+    params["remark"] = request.form.get("remark")
+    print "\t[项目备注] %s" % params["remark"]
+
     # 保存爬取参数
     print "【params】" + str(params)
+    save_json(out_dir, u"0 param - 爬取参数", params)
     file_str = save_params_file(params)
     html_str = file_str.replace('\n', '<br/>')
 
     img_len , request_points = init_crawler(params) #计算每次请求的中心点
+    print request_points
     if img_len==0:
         return "抱歉，任务失败！<br/>框选区域没有雷达降水图。"
     else:
         # 开启任务，异步进程
-        executor.submit(start(params, request_points))
+        executor.submit(
+            start(params, request_points)
+        )
         return '任务已在后台运行！<br/>每次需要爬取{}张图片！<br/>{}'.format(img_len, html_str)
 
 def redirect_index(msg):

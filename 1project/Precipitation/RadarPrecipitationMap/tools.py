@@ -32,6 +32,12 @@ def get_time():
     t = timestamp_to_time(c)
     return t
 
+def get_timestamp():
+    """ 得到当前的时间戳
+    :return:
+    """
+    return time.time()
+
 def is_timestr(str):
     """ 检查是否为时间字符串
     :param str:
@@ -82,7 +88,8 @@ def save_params_file(params):
         'south_east_point': '右下角坐标',
         'south_west_point': '左下角坐标',
         'save_file_dir': '保存文件夹',
-        'out_dir' : '工程目录（图像输出文件夹）'
+        'out_dir' : '工程目录（图像输出文件夹）',
+        "remark" : "项目备注"
     }
     out_path = os.path.join(
         params["out_dir"], u'爬取参数.txt'
@@ -114,6 +121,7 @@ def get_log(dir, fn=""):
     import logging
     from os.path import join
 
+    logging.basicConfig()
     if fn=="":
         fn = "[LOG] %s.txt" % str(get_time() )
     fp = join(dir, fn)
@@ -143,7 +151,7 @@ def save_json(dir, fn, obj):
     import os
     fp = os.path.join(dir, fn + '.json')
     with open(fp, 'w+') as f:
-        json.dump(obj, f)
+        json.dump(obj, f, indent=4)
         f.close()
     return fp
 

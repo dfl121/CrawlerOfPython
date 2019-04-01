@@ -3,11 +3,26 @@
 # @Version: v1.0.0 2019/3/16
 import requests
 import json
-from tools import timestamp_to_time
 from collections import OrderedDict
+import os
 
 # debug
 from tools import save_json
+
+home = "https://api.caiyunapp.com/v1/radar/images"
+headers = {
+    "User-Agent" : "Dalvik/2.1.0 (Linux; U; Android 8.1.0; MI 5X MIUI/V10.2.3.0.ODBCNXM)",
+    "Host" : "api.caiyunapp.com",
+    "Connection" : "Keep-Alive",
+    "Accept-Encoding" : "gzip"
+}
+params = {
+    # "lon" : lon, # 118.081
+    # "lat" : lat, # 24.48176
+    "token" : "Y2FpeXVuIGFuZHJpb2QgYXBp",
+    "level" : 1,
+    "device_id" : "99001113012363"
+}
 
 def do_get(lat, lon):
     """ 请求
@@ -20,20 +35,12 @@ def do_get(lat, lon):
             [2]：extent
         返回失败None
     """
-    home = "https://api.caiyunapp.com/v1/radar/images"
-    headers = {
-        "User-Agent" : "Dalvik/2.1.0 (Linux; U; Android 8.1.0; MI 5X MIUI/V10.2.3.0.ODBCNXM)",
-        "Host" : "api.caiyunapp.com",
-        "Connection" : "Keep-Alive",
-        "Accept-Encoding" : "gzip"
-    }
-    params = {
-        "lon" : lon, # 118.081
-        "lat" : lat, # 24.48176
-        "token" : "Y2FpeXVuIGFuZHJpb2QgYXBp",
-        "level" : 1,
-        "device_id" : "99001113012363"
-    }
+    global home
+    global headers
+    global params
+
+    params["lon"] = lon
+    params["lat"] = lat
     r = requests.get(home, params=params, headers=headers)
     print "\t[请求网页]%s" % str(r.url).encode("utf8")
     json_str = r.text
@@ -41,8 +48,8 @@ def do_get(lat, lon):
     if "images" not in ret: #该地区没有imgs
         return None
     imgs = ret["images"]
-    for image in imgs:
-        image[1] = timestamp_to_time(image[1]) # 转换时间
+    # for image in imgs:
+    #     image[1] = timestamp_to_time(image[1]) # 转换时间
 
     print "\t\t[imgs] %s" % str(imgs)
     return imgs
@@ -76,7 +83,7 @@ def init_crawler(params):
     if abs(n_boundary-s_boundary)<=1 and abs(e_boundary-w_boundary)<=1: #小图幅
         center_point = params["center_point"] #取出中心点
         value = {}
-        value["request_points"] = center_point #请求点
+        value["req_pnt"] = center_point #请求点
 
         imgs = do_get(*center_point) #拿中心点请求，看是否正常
         # 如果图幅正常，而且有范围exetent
@@ -93,7 +100,7 @@ def init_crawler(params):
             for y in range(w_boundary, e_boundary, 1):
                 sheet_num = str(row) + ',' + str(col)
                 value = {}
-                value["request_points"] = (x,y)
+                value["req_pnt"] = (x,y)
                 imgs = do_get(x, y)
                 # 如果图幅正常，而且有范围exetent
                 if imgs!=None and len(imgs)>0 and len(imgs[0])>=3:
@@ -104,7 +111,7 @@ def init_crawler(params):
                 col+=1
             row+=1
 
-        save_path = save_json(params["out_dir"], u"1度为步长的centerpoint与extent", request_points)
+        save_path = save_json(params["out_dir"], u"1 request_points - 1度为步长的centerpoint与extent", request_points)
         print u"[FILE] 1度为步长的centerpoint与extent：{}".format(save_path)
 
         # 根据extent将请求点去重
@@ -129,13 +136,23 @@ def init_crawler(params):
             continue
 
 
-    save_path = save_json(params["out_dir"], u"每次爬取的中心点坐标", request_points)
+    save_path = save_json(params["out_dir"], u"2 request_points - 每次爬取的中心点坐标", request_points)
     print u"[FILE] 每次爬取的中心点坐标：{}".format(save_path)
     print "【进程】每次需要爬取{}张图片".format( img_len )
 
     return img_len,request_points
 
+def download_file(url, out_dir):
+    fn = url.split('/')[-1]
+    fc = requests.get(url).content
+    fp = os.path.join(out_dir, fn)
+    with open(fp, "wb") as f:
+        f.write(fc)
+        return fn, fp
+    return None,None
+
 
 if __name__ == '__main__':
-
+    url = "http://cdn.caiyunapp.com/res/storm_radar/radar_NMIC_AZ9596_nmc_fast/20190331/Z_RADR_I_Z9596_20190331094900_P_DOR_SA_R_10_230_15.596.clean.png"
+    print download_file(url, r"C:\Users\PasserQi\Desktop")
     pass
