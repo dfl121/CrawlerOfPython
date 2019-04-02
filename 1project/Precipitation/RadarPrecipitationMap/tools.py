@@ -89,12 +89,15 @@ def save_params_file(params):
         'south_west_point': '左下角坐标',
         'save_file_dir': '保存文件夹',
         'out_dir' : '工程目录（图像输出文件夹）',
-        "remark" : "项目备注"
+        "remark" : "项目备注",
+        "original_dir" : "原始数据-GCJ02",
+        "registration_dir" : "配准数据-WGS84",
+        "mosaic_dir" : "镶嵌图-WGS84"
     }
     out_path = os.path.join(
         params["out_dir"], u'爬取参数.txt'
     )
-    ret = ""
+    ret = "无特殊说明，坐标都为GCJ-02标准\n"
     with open(out_path, 'w+') as fp:
         for param in params.keys():
             if param in params_name.keys():
@@ -150,6 +153,8 @@ def save_json(dir, fn, obj):
     """
     import os
     fp = os.path.join(dir, fn + '.json')
+    if os.path.exists(fp): #原来有，删掉
+        os.remove(fp)
     with open(fp, 'w+') as f:
         json.dump(obj, f, indent=4)
         f.close()
@@ -167,5 +172,9 @@ if __name__ == '__main__':
     # logger.debug("Do something")
     # logger.warning("Something maybe fail.")
     # logger.info("Finish")
+    data = {"1": "2"}
+    save_json(r"C:\Users\PasserQi\Desktop\tmp", "9 data", data)
+    data["2"] = "2"
+    save_json(r"C:\Users\PasserQi\Desktop\tmp", "9 data", data)
 
     pass

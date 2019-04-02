@@ -95,22 +95,57 @@ def initparam():
     params["remark"] = request.form.get("remark")
     print "\t[项目备注] %s" % params["remark"]
 
-    # 保存爬取参数
-    print "【params】" + str(params)
-    save_json(out_dir, u"0 param - 爬取参数", params)
-    file_str = save_params_file(params)
-    html_str = file_str.replace('\n', '<br/>')
-
     img_len , request_points = init_crawler(params) #计算每次请求的中心点
     print request_points
     if img_len==0:
         return "抱歉，任务失败！<br/>框选区域没有雷达降水图。"
     else:
+        # 初始化文件夹
+        init_dir(params, request_points)
+
+        # 保存爬取参数
+        print "【params】" + str(params)
+        save_json(out_dir, u"0 param - 爬取参数", params) #保存成json
+        file_str = save_params_file(params) #保存给用户看
+        html_str = file_str.replace('\n', '<br/>') #输出的HTML字符串
+
         # 开启任务，异步进程
         executor.submit(
             start(params, request_points)
         )
+
         return '任务已在后台运行！<br/>每次需要爬取{}张图片！<br/>{}'.format(img_len, html_str)
+
+def init_dir(params, request_points):
+    project_dir = params["out_dir"]
+    # original文件夹
+    original_dir = os.path.join(project_dir, "0original")
+    if os.path.exists(original_dir) is False:
+        os.mkdir(original_dir)
+    params["original_dir"] = original_dir
+
+    # registration文件夹
+    registration_dir = os.path.join(project_dir, "1registration_dir")
+    if os.path.exists(registration_dir) is False:
+        os.mkdir(registration_dir)
+    params["registration_dir"] = registration_dir
+
+    # mosaic
+    mosaic_dir = os.path.join(project_dir, "2mosaic_dir")
+    if os.path.exists(mosaic_dir) is False:
+        os.mkdir(mosaic_dir)
+    params["mosaic_dir"] = mosaic_dir
+
+    # frame文件夹
+    for frame,frame_value in request_points.items():
+        # 原始数据
+        frame_dir = os.path.join(original_dir, frame)
+        if os.path.exists(frame_dir) is False:
+            os.mkdir(frame_dir)
+        # 配准数据
+        frame_dir = os.path.join(registration_dir, frame)
+        if os.path.exists(frame_dir) is False:
+            os.mkdir(frame_dir)
 
 def redirect_index(msg):
     """ 重定向到index，并且显示msg

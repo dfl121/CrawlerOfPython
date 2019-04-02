@@ -1,8 +1,8 @@
 /*
  @Author:PasserQi
- @Time:2019-3-16
+ @Time:2019-4-1
  */
-TIME_FORMAT = "yyyy-mm-dd hh-ii"
+TIME_FORMAT = "yyyy-mm-dd hh-ii";
 
 var map;
 $(document).ready(function(){
@@ -115,7 +115,7 @@ var rectangleMeasure = {
 			$(this).val("正在计算");
 		});
     }
-}
+};
 // 表单检查
 function checkForm() {
     // 检查矩形
@@ -131,5 +131,22 @@ function checkForm() {
         return false;
     }
 
+    $("#errorInfo").html("表单已提交，后台正在处理。");
     return true;
+
+    // ajax方式提交
+    // var json_data = {};
+    // var form_data = $('form').serializeArray();
+    // $.each(form_data, function() {
+    //   json_data[this.name] = this.value;
+    // });
+    // $.post(
+    //     $("#formid").attr("action"),
+    //     json_data,
+    //     function (data, status) {
+    //         console.log(data);
+    //         console.log(status);
+    //     }
+    // );
+    // return false;
 }

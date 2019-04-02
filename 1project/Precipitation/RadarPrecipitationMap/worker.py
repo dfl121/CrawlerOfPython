@@ -26,18 +26,24 @@ sched = BlockingScheduler()
 # 监听器
 def listener(event):
     if event.exception:
-        logger.info( "【{}任务退出】{}".format(event.job_id, event.exception.message) )
+        global data
+        global project_dir
+        logger.info("【{}任务退出】{}".format(event.job_id, event.exception.message))
+        logger.info("【data】{}".format(data))
+        save_json(project_dir, "9 data", data)
+
     else:
         logger.info( "【爬取任务正常运行】")
 sched.add_listener(listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
 
 
 # ------------ 全局变量 ------------
-global logger
-global request_points #请求的中心点坐标
-global end_timestrap #结束时间戳
-global project_dir
-global data
+global params           #工程参数
+global project_dir      #工程目录
+global logger           #日志
+global request_points   #请求的中心点坐标
+global end_timestrap    #结束时间戳
+global data             #original数据集
 data = OrderedDict()
     # {
     #     "0,0" : { #图幅名
@@ -53,9 +59,22 @@ data = OrderedDict()
     #     },
     #     ...
     # }
+global data_rgs         #registration数据集
+data_rgs = OrderedDict()
+    # {
+    #     "0,0" : { #图幅名
+    #        "2019-03-31 17-49-00" : { #时间
+    #             {
+    #                 "extent" : "", #范围-WGS84
+    #                 "file_path" : "", #该文件的路径
+    #             }
+    #        }
+    #     },
+    #     ...
+    # }
 
 # ------------ 工作入口 ------------
-def start(params, req_points):
+def start(_params, req_points):
     """ 开始工作
     :param params:
     :param request_points: dict
@@ -66,6 +85,9 @@ def start(params, req_points):
                 extent is None 该请求点没有图幅
     :return:
     """
+    global params
+    params = _params
+
     global logger
     logger = get_log(params["out_dir"] )
     logger.info("【进程】开始下载")
@@ -105,6 +127,9 @@ def loop():
         if current_timestamp>end_timestrap:
             sched.shutdown()
 
+    current_time = timestamp_to_time(current_timestamp)
+    logger.info("【开始爬取】{}".format(current_time) )
+
     # 爬取工作
     global data
     for frame,value in request_points.items():
@@ -135,7 +160,10 @@ def loop():
                 pass
     print data
 
-    download()
+    save_json(project_dir, "9 data", data)
+
+    download() #下载
+    registration() #配准
     return
 
 
@@ -145,9 +173,11 @@ def download():
     global logger
 
     # original文件夹
-    original_dir = os.path.join(project_dir, "original")
-    if os.path.exists(original_dir) is False:
-        os.mkdir(original_dir)
+    # original_dir = os.path.join(project_dir, "0original")
+    # if os.path.exists(original_dir) is False:
+    #     os.mkdir(original_dir)
+    original_dir = params["original_dir"]
+
 
     for frame,frame_value in data.items():
         # 图幅文件夹
@@ -164,14 +194,77 @@ def download():
             url = time_value["url"]
             fn,fp = download_file(url, frame_dir)
             if fn==None: #下载错误
-                logger.error("[No Download] {}".format(url) )
+                logger.error("[下载失败！] {}".format(url) )
                 continue #退出
             else: #下载完成
                 time_value["file_path"] = fp
+                time_value["file_name"] = fn
                 # 保存头文件
                 hdr_fn = os.path.splitext(fn)[0] #头文件名称
                 save_json(frame_dir, hdr_fn, time_value)
-                logger.info("[Downloaded] {}".format(fp) )
+                # logger.info("[下载成功] {}".format(fp) )
+    pass
+
+
+def registration():
+    global data
+    global data_rgs
+    global params
+    global logger
+
+    rgs_dir = params["registration_dir"]
+
+    for frame,frame_value in data.items():
+        for time,time_value in frame_value.items():
+            # 原始数据
+            origin_file_path = time_value["file_path"] #原始数据文件路径
+            if origin_file_path=="":
+                # 还没有下载，退出
+                continue
+            origin_file_name = time_value["file_name"] #原始数据文件名
+
+            # 配准数据
+            if frame not in data_rgs:
+                data_rgs[frame] = OrderedDict()
+
+            if time in data_rgs[frame]:
+                # 该数据已经配准过了
+                continue
+
+            # 这个数据还没有配准
+            rgs_file_name = "{} {}.png".format(frame, time)
+            rgs_file_path = os.path.join(rgs_dir, rgs_file_name)# 配准数据文件路径
+            if os.path.exists(rgs_file_path) is True: #配准文件已经存在
+                continue
+
+            rgs_data_item = do_rgs(time_value, rgs_file_path)
+            if rgs_data_item is None:
+                logger.error("[配准失败！] {}".format(origin_file_path) )
+            else:
+                # 配准完成，保存到data_rgs
+                data_rgs[frame][time] = rgs_data_item
+
+    save_json(project_dir, "9 data_rgs", data_rgs) #保存配准信息
+    pass
+
+def do_rgs(data_time_value, rgs_file_path):
+    """ 配准
+    :param data_time_value: dict 原始图像的信息-GCJ02
+        {
+            "time" : "",          #时间
+            "timestamp" : "",     #时间戳
+            "url" : "",           #下载链接
+            "extent" : "",        #范围
+            "req_pnt" : "",       #该瓦片请求的点坐标
+            "file_path" : ""      #文件的path
+        }
+    :param rgs_file_path: str 配准后保存的路径
+    :return: rgs_data_item: dict/None
+        {
+            "extent" : "", #范围-WGS84
+            "file_path" : "", #该文件的路径
+        }
+    """
     pass
 
 
